@@ -1,62 +1,77 @@
 'use client'
 
-import React from 'react'
-import { useMissedStories } from '@/src/hooks/useStories' // adjust path if needed
-import SkeletonCard from '../SkeletonCard'
-import { TfiEmail } from 'react-icons/tfi'
+import { useLatestStories } from "@/src/hooks/useStories"
+import Image from "next/image"
+import SkeletonCard from "../SkeletonCard"
+import Slider from 'react-slick'
+import type SliderType from 'react-slick'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import { useRef, useState } from "react"
 
-const MissedStories = () => {
-  const { data: missedStories, isLoading, isError, error } = useMissedStories()
+const LatestNews = () => {
+  const { data: latestNews, isLoading, isError } = useLatestStories()
+  const sliderRef = useRef<SliderType | null>(null)
+  const [current, setCurrent] = useState(0)
 
   if (isLoading) return <SkeletonCard />
-  if (isError) return <p className="text-red-500">Failed to load: {String((error as any)?.message)}</p>
-  if (!missedStories || missedStories.length === 0) return <p className="text-gray-500">No missed stories available.</p>
+  if (isError) return <p>Error loading latest news</p>
+
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    beforeChange: (_old: number, next: number) => setCurrent(next),
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 640, settings: { slidesToShow: 1 } }
+    ]
+  }
 
   return (
-    <div className="mt-20">
-      <h2 className="text-xl font-semibold mb-4">Missed Stories</h2>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {missedStories.map((story) => (
-          <div key={story.id} className="p-4   hover:shadow">
-            <h3 className="font-medium mb-2">{story.title}</h3>
-            <p className="text-xs text-gray-500 font-bold flex items-center">
-              <span className="w-2 h-2 bg-red-800 rounded-full mr-2"></span>
-              {new Date(story.date).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid md:grid-cols-2 mt-10 gap-6">
-        <div>
-          <div className="flex items-center gap-2 text-lg text-gray-700 mb-4">
-            <TfiEmail className="text-6xl" />
-            <span>
-              Get the latest news and stories from around Africa directly into your inbox daily.
-            </span>
-          </div>
-          <div className="flex flex-col gap-2">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="border px-3 py-2 rounded-md flex-1 focus:outline-none focus:ring-2 focus:ring-red-800"
-            />
-            <button className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-red-700 transition">
-              Get Me In
-            </button>
+    <div className='border-t-4 border-gray-300 sm:border-0 mt-10 pt-5 mb-20'>
+      <div className="w-full mx-auto px-4">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="font-semibold text-lg border-l-8 pl-1 border-gray-500">
+            Latest News
+          </h1>
+          <div className="flex space-x-1">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <button
+                key={i}
+                onClick={() => sliderRef.current?.slickGoTo(i)}
+                className={`w-2 h-2 rounded-full ${current === i ? 'bg-red-400' : 'bg-gray-400'}`}
+              />
+            ))}
           </div>
         </div>
-        <div className="flex items-center justify-center text-gray-500 border rounded-md">
-          
-        </div>
+
+        <Slider ref={sliderRef} {...settings}>
+          {latestNews?.map((news, index) => (
+            <article key={news.id} className="p-2">
+              <div className="relative w-full h-60 rounded overflow-hidden">
+                <Image
+                  src={news.image}
+                  alt={news.title}
+                  fill
+                  className="object-cover"
+                  priority={index === 0}
+                />
+                <div className="absolute top-2 left-2 bg-black/50 text-white text-xs md:text-sm px-2 py-1 rounded-full">
+                  {news.name}
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/5 to-transparent p-2">
+                  <p className="text-sm md:text-base font-semibold text-white">{news.title}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </Slider>
       </div>
     </div>
   )
 }
 
-export default MissedStories
+export default LatestNews

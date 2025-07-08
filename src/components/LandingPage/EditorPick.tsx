@@ -3,10 +3,9 @@
 import React from 'react'
 import Image from 'next/image'
 import { useEditorsPicks } from '@/src/hooks/useStories'
-import type { EditorPicks } from '@/src/types/apiTypes'
 
 const EditorPick: React.FC = () => {
-  const { data: editorPicks, isLoading, isError, error } = useEditorsPicks()
+  const { data: editorPicks, isLoading, isError } = useEditorsPicks()
 
   if (isLoading) return <p>Loading editor picks...</p>
 

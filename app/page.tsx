@@ -1,5 +1,4 @@
 
-import Categories from '@/src/components/LandingPage/Categories'
 import EditorPick from '@/src/components/LandingPage/EditorPick'
 import FeaturedStories from '@/src/components/LandingPage/FeaturedStories'
 import LatestNews from '@/src/components/LandingPage/LatestNews'
