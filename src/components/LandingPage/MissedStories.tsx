@@ -4,14 +4,13 @@ import { useLatestStories } from "@/src/hooks/useStories"
 import Image from "next/image"
 import SkeletonCard from "../SkeletonCard"
 import Slider from 'react-slick'
-import type SliderType from 'react-slick'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { useRef, useState } from "react"
 
 const LatestNews = () => {
   const { data: latestNews, isLoading, isError } = useLatestStories()
-  const sliderRef = useRef<SliderType | null>(null)
+  const sliderRef = useRef<Slider | null>(null)
   const [current, setCurrent] = useState(0)
 
   if (isLoading) return <SkeletonCard />
