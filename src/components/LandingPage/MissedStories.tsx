@@ -34,7 +34,7 @@ const LatestNews = () => {
       <div className="w-full mx-auto px-4">
         <div className="flex justify-between items-center mb-4">
           <h1 className="font-semibold text-lg border-l-8 pl-1 border-gray-500">
-            Latest News
+            Missed News
           </h1>
           <div className="flex space-x-1">
             {[0, 1, 2, 3, 4, 5].map((i) => (
@@ -52,14 +52,14 @@ const LatestNews = () => {
             <article key={news.id} className="p-2">
               <div className="relative w-full h-60 rounded overflow-hidden">
                 <Image
-                  src={news.image}
+                  src={news.banner_image}
                   alt={news.title}
                   fill
                   className="object-cover"
                   priority={index === 0}
                 />
                 <div className="absolute top-2 left-2 bg-black/50 text-white text-xs md:text-sm px-2 py-1 rounded-full">
-                  {news.name}
+                  {news.title}
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/5 to-transparent p-2">
                   <p className="text-sm md:text-base font-semibold text-white">{news.title}</p>

@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
-import type {
-  LatestNews,
-  Category,
-  TopStories,
-  EditorPicks,
-  MissedStories,
-  FeaturedStory,
+import {
+  type Category,
+  topStoryItem,
+  topStoryItemData,
+  latestStoryItem,
+  LatestNewsItemData,
+  featureItem,
+  featureItemData,
 } from "../types/apiTypes";
 
 // Categories
@@ -19,96 +20,70 @@ export const useCategories = () =>
     },
   });
 
-// Top Stories
+// top Stories
+export async function fetchTopStories(): Promise<topStoryItem[]> {
+  const res = await api.get<topStoryItemData>("top-stories");
+  return res.data.data.data;
+}
+
 export const useTopStories = () =>
-  useQuery<TopStories[]>({
+  useQuery<topStoryItem[]>({
     queryKey: ["topStories"],
-    queryFn: async () => {
-      const res = await api.get("top-stories");
-      return res.data.data.data.map((item: {
-        id: number;
-        story: { title: string; banner_image: string };
-      }) => ({
-        id: item.id,
-        title: item.story.title,
-        image: item.story.banner_image,
-      }));
-    },
-  });
+    queryFn: fetchTopStories,
+})
+
 
 // Latest Stories
+export async function fetchLatestStories(): Promise<latestStoryItem[]> {
+  const res = await api.get<LatestNewsItemData>("stories/latest-stories?page=1&per_page=7");
+  return res.data.data.data;
+}
+
 export const useLatestStories = () =>
-  useQuery<LatestNews[]>({
-    queryKey: ["latestStories"],
-    queryFn: async () => {
-      const res = await api.get("/stories/latest-stories?page=1&per_page=7");
-      return res.data.data.data.map((item: {
-        id: number;
-        title: string;
-        banner_image: string;
-        category_name?: string;
-      }) => ({
-        id: item.id,
-        title: item.title,
-        image: item.banner_image,
-        name: item.category_name ?? "Politics",
-      }));
-    },
+  useQuery<latestStoryItem[]>({
+    queryKey: ["latestNews"],
+    queryFn: fetchLatestStories,
   });
 
 // Editor Picks
+
+export async function fetchEditorsPicks(): Promise<topStoryItem[]> {
+  const res = await api.get<topStoryItemData>("editor-picks?page=1&per_page=15");
+  return res.data.data.data;
+}
+
 export const useEditorsPicks = () =>
-  useQuery<EditorPicks[]>({
+  useQuery<topStoryItem[]>({
     queryKey: ["editorPicks"],
-    queryFn: async () => {
-      const res = await api.get("/editor-picks?page=1&per_page=15");
-      return res.data.data.data.map((item: {
-        story: { id: number; title: string; author: string };
-        banner_image: string;
-        category?: { category_name: string };
-      }): EditorPicks => ({
-        id: item.story.id,
-        title: item.story.title,
-        image: item.banner_image,
-        name: item.category?.category_name ?? "Uncategorized",
-        author: item.story.author,
-      }));
-    },
+    queryFn: fetchEditorsPicks,
   });
+
+
 
 // Missed Stories
+export async function fetchMissedStories(): Promise<latestStoryItem[]> {
+  const res = await api.get<LatestNewsItemData>("stories/missed-stories?page=1&per_page=7");
+  return res.data.data.data;  
+}
 export const useMissedStories = () =>
-  useQuery<MissedStories[]>({
+  useQuery<latestStoryItem[]>({
     queryKey: ["missedStories"],
-    queryFn: async () => {
-      const res = await api.get("/stories/missed-stories?page=1&per_page=5");
-      return res.data.data.data.map((item: {
-        id: number;
-        title: string;
-        created_at: string;
-      }) => ({
-        id: item.id,
-        title: item.title,
-        date: item.created_at,
-      }));
-    },
-  });
+    queryFn: fetchMissedStories,
+})
+
 
 // Featured Stories
+export async function fetchFeaturedStories():Promise<featureItem[]> {
+  const res = await api.get<featureItemData>("stories/featured-stories?page=1&per_page=6");
+  return res.data.data.data;
+
+}
+
 export const useFeaturedStories = () =>
-  useQuery<FeaturedStory[]>({
+  useQuery<featureItem[]>({
     queryKey: ["featuredStories"],
-    queryFn: async () => {
-      const res = await api.get("/stories/featured-stories?page=1&per_page=15");
-      return res.data.data.data.map((item: {
-        id: number;
-        image: string;
-      }) => ({
-        id: item.id,
-        image: item.image,
-      }));
-    },
-  });
+    queryFn: fetchFeaturedStories,
+  })
 
 // Single Story
 export const useSingleStory = (storyId: string) =>

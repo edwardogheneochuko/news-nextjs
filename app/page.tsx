@@ -13,7 +13,7 @@ const page = () => {
       <TopStories />
       <LatestNews />
       <EditorPick />
-      <FeaturedStories />
+      {/* <FeaturedStories /> */}
       <MissedStories />
     </div>  
   )

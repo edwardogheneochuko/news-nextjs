@@ -18,9 +18,9 @@ const FeaturedStories = () => {
         <h1 className="font-bold mb-4">Featured Stories</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {featuredStories.map((story) => (
-            <div key={story.id}>
+            <div key={story.first}>
               <Image
-                src={story.image}
+                src={story.first}
                 alt=""
                 width={400}
                 height={250}

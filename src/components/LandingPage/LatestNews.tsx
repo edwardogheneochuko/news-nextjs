@@ -15,7 +15,7 @@ const LatestNews = () => {
 
   if (isLoading) return <SkeletonCard />
   if (isError) return <p>Error loading latest news</p>
-
+  
   const settings = {
     dots: false,
     infinite: true,
@@ -51,18 +51,20 @@ const LatestNews = () => {
           {latestNews?.map((news, index) => (
             <article key={news.id} className="p-2">
               <div className="relative w-full h-60 rounded overflow-hidden">
-                <Image
-                  src={news.image}
+                <Image  
+                  src={news.banner_image}
                   alt={news.title}
                   fill
                   className="object-cover"
                   priority={index === 0}
                 />
                 <div className="absolute top-2 left-2 bg-black/50 text-white text-xs md:text-sm px-2 py-1 rounded-full">
-                  {news.name}
+                  {news.category.category_name}
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/5 to-transparent p-2">
-                  <p className="text-sm md:text-base font-semibold text-white">{news.title}</p>
+                  <p className="text-sm md:text-base font-semibold text-white">
+                    {news.title}
+                  </p>
                 </div>
               </div>
             </article>

@@ -7,35 +7,55 @@ export type Category = {
     updated_at: string
 }
 
-export type TopStories = {
-    id: number
-    title: string
-    image: string
-}
+// top stories & editor picks
 
-export type LatestNews = {
+type topStory = {
     id: number
     title: string
-    image: string
-    name: string
-}
-
-export type EditorPicks = {
-    id: number
-    title: string
-    image: string
-    name: string
+    banner_image: string
     author: string
+    status: string
+    category: { category_name: string }
 }
 
-export type MissedStories = {
+export type topStoryItem = {
+    id: number
+    story: topStory
+}
+
+export type topStoryItemData = {
+    message: string
+    data: {
+        data: topStoryItem[]
+    }
+}
+
+// latest news & missed stories
+
+export type latestStoryItem  = {
     id: number
     title: string
-    date: string
+    banner_image: string
+    category: { category_name: string };
 }
 
-export type FeaturedStory = {
-    id: number
-    image: string
+export type LatestNewsItemData = {
+    message: string
+    data: {
+        data: latestStoryItem[]
+    }
 }
-  
+
+// feature stories
+
+export type featureItem = {
+    first: string
+}
+
+export type featureItemData = {
+    message: string
+    data: {
+        data: featureItem[]
+    }
+}
+

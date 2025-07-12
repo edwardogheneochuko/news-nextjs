@@ -25,8 +25,8 @@ const EditorPick: React.FC = () => {
         <div className="rounded-xl overflow-hidden shadow hover:shadow-lg transition relative">
           <div className="relative h-64 w-full">
             <Image
-              src={firstPick.image || '/placeholder.jpg'}
-              alt={firstPick.title}
+              src={firstPick.story.banner_image}
+              alt={firstPick.story.title}
               fill
               className="object-cover"
             />
@@ -38,9 +38,9 @@ const EditorPick: React.FC = () => {
           </div>
           {/* Title, author and category always below the image */}
           <div className="p-4">
-            <h3 className="font-semibold text-xl mb-1">{firstPick.title}</h3>
-            <p className="text-sm text-gray-500 mb-1">By {firstPick.author}</p>
-            <p className="text-xs text-gray-400">Category: {firstPick.name}</p>
+            <h3 className="font-semibold text-xl mb-1">{firstPick.story.title}</h3>
+            <p className="text-sm text-gray-500 mb-1">By {firstPick.story.author}</p>
+            <p className="text-xs text-gray-400">Category: {firstPick.story.category.category_name}</p>
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@ const EditorPick: React.FC = () => {
               className="text-sm text-gray-700 hover:underline cursor-pointer flex items-center"
             >
               <span className="bg-red-600 p-1 rounded-full mr-2"></span>
-              {pick.title}
+              {pick.story.title}
             </li>
           ))}
         </ul>

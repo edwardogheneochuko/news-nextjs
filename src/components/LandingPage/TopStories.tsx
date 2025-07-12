@@ -22,8 +22,8 @@ const TopStories = () => {
         <div>
           <div className="relative w-full h-60 md:h-96 mb-2">
             <Image
-              src={firstStory.image}
-              alt={firstStory.title}
+              src={firstStory.story.banner_image}
+              alt={firstStory.story.title}
               layout="fill"
               objectFit="cover"
               className="rounded"
@@ -31,13 +31,13 @@ const TopStories = () => {
 
             <div className="hidden md:block absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b">
               <h1 className="text-black md:text-red-300 font-bold">Latest Today</h1>
-              <h2 className="font-semibold text-lg text-white">{firstStory.title}</h2>
+              <h2 className="font-semibold text-lg text-white">{firstStory.story.title}</h2>
             </div>
           </div>
 
           <div className="block md:hidden">
             <h1 className="text-red-300 text-xs">LATEST TODAY</h1>
-            <h2 className="font-semibold text-lg">{firstStory.title}</h2>
+            <h2 className="font-semibold text-lg">{firstStory.story.title}</h2>
           </div>
         </div>
 
@@ -50,21 +50,21 @@ const TopStories = () => {
             >
               <div className="relative w-1/2 md:w-full h-24 md:h-44">
                 <Image
-                  src={story.image}
-                  alt={story.title}
+                  src={story.story.banner_image}
+                  alt={story.story.title}
                   layout="fill"
                   objectFit="cover"
                   className="rounded"
                 />
                 <div className="hidden md:block absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 rounded-b">
                   <h1 className="text-xs text-red-300">NEWS TODAY</h1>
-                  <h3 className=" text-white font-bold">{story.title}</h3>
+                  <h3 className=" text-white font-bold">{story.story.banner_image}</h3>
                 </div>
               </div>
 
               <div className="block md:hidden flex-1">
                 <h1 className="text-xs text-red-300">NEWS TODAY</h1>
-                <h3 className="font-bold">{story.title}</h3>
+                <h3 className="font-bold">{story.story.title}</h3>
               </div>
             </div>
           ))}
